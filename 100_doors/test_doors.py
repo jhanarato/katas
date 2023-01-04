@@ -1,5 +1,5 @@
 import pytest
-from doors import Door, Row, Passer
+from doors import Door, Row, Passer, doors_to_string
 
 def test_door():
     door = Door(number=1, is_open=False)
@@ -11,7 +11,7 @@ def test_row_has_correct_number_of_doors():
     row = Row(doors=100)
     assert row.number_of_doors == 100
 
-def test_toggle_open_one():
+def test_opened_and_closed():
     row = Row(doors=5)
     row.toggle(door=2)
     assert row.opened == [2]
@@ -39,3 +39,17 @@ def test_pass(doors, toggle_each, opened):
     passer = Passer(row)
     passer.pass_by(toggle_each=toggle_each)
     assert row.opened == opened
+
+def test_make_3_passes():
+    row = Row(doors=5)
+    passer = Passer(row)
+    passer.make_n_passes(3)
+
+    assert row.opened == [1, 5]
+
+def test_format_door_numbers():
+    row = Row(doors=5)
+    row.toggle(door=2)
+    row.toggle(door=4)
+    door_string = doors_to_string(row.opened)
+    assert door_string == "2, 4"

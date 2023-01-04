@@ -41,3 +41,20 @@ class Passer:
         for door in self._row.doors:
             if door.number % toggle_each == 0:
                 door.toggle()
+
+    def make_n_passes(self, n):
+        for pass_num in range(1, n + 1):
+            self.pass_by(pass_num)
+
+def doors_to_string(door_numbers):
+    as_str = [str(door_number) for door_number in door_numbers]
+    return ", ".join(as_str)
+
+def main():
+    row = Row(doors=100)
+    passer = Passer(row)
+    passer.make_n_passes(100)
+    print("Open Doors: " + doors_to_string(row.opened))
+
+if __name__ == "__main__":
+    main()
